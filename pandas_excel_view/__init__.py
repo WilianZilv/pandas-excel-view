@@ -1,7 +1,7 @@
 import win32com.client as win32
 import datetime
 
-class PandasExcelViewer:
+class PandasExcelView:
 
     def __init__(self, workbook_name='Python'):
         self.__real_workbook_name = None
@@ -93,5 +93,5 @@ class PandasExcelViewer:
         ws.Activate()
 
 
-pdv = PandasExcelViewer()
+pdv = PandasExcelView()
 show = pdv.show
