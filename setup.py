@@ -8,7 +8,7 @@ with open("requirements.txt", 'r') as fh:
 
 setuptools.setup(
     name="pandas-excel-view",
-    version="0.0.2",
+    version="0.0.3",
     author="Wilian Silva",
     author_email="wilianzilv@gmail.com",
     description="Visualize Pandas DataFrames in Excel",

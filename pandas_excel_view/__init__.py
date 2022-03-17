@@ -94,10 +94,13 @@ class PandasExcelView:
         self.focus()
     
     def focus(self):
-        w = gw.getWindowsWithTitle(f'{self.wb.Name} - Excel')
-        if len(w):
-            w[0].activate()
-            w[0].restore()
+        try:
+            w = gw.getWindowsWithTitle(f'{self.wb.Name} - Excel')
+            if len(w):
+                w[0].activate()
+                w[0].restore()
+        except:
+            pass
 
 
 pdv = PandasExcelView()
