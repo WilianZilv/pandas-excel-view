@@ -1,5 +1,6 @@
 import win32com.client as win32
 import datetime
+import pygetwindow as gw
 
 class PandasExcelView:
 
@@ -9,7 +10,7 @@ class PandasExcelView:
 
     def __ensure_workbook(self):
         # Abre o excel se não estiver aberto
-        excel = win32.gencache.EnsureDispatch('Excel.Application')
+        excel = win32.Dispatch('Excel.Application')
         excel.Visible = True
         self.excel = excel
 
@@ -58,8 +59,6 @@ class PandasExcelView:
         else:
             for i in range(1, self.wb.Sheets.Count + 1):
                 _ws = self.wb.Sheets(i)
-                print(i)
-                print(_ws.Name)
                 if _ws.Name == sheet_name:
                     ws = _ws
             
@@ -91,6 +90,14 @@ class PandasExcelView:
                 pass
 
         ws.Activate()
+
+        self.focus()
+    
+    def focus(self):
+        w = gw.getWindowsWithTitle(f'{self.wb.Name} - Excel')
+        if len(w):
+            w[0].activate()
+            w[0].restore()
 
 
 pdv = PandasExcelView()
