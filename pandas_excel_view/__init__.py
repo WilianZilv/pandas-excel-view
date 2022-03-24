@@ -1,5 +1,4 @@
 import datetime
-import pygetwindow as gw
 
 def dispatch(app_name:str):
     try:
@@ -114,6 +113,8 @@ class PandasExcelView:
     
     def focus(self):
         try:
+            import pygetwindow as gw
+
             w = gw.getWindowsWithTitle(f'{self.wb.Name} - Excel')
             if len(w):
                 w[0].activate()
