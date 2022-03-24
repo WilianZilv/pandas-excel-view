@@ -1,6 +1,25 @@
-import win32com.client as win32
 import datetime
 import pygetwindow as gw
+
+def dispatch(app_name:str):
+    try:
+        from win32com import client
+        app = client.gencache.EnsureDispatch(app_name)
+    except AttributeError:
+        # Corner case dependencies.
+        import os
+        import re
+        import sys
+        import shutil
+        # Remove cache and try again.
+        MODULE_LIST = [m.__name__ for m in sys.modules.values()]
+        for module in MODULE_LIST:
+            if re.match(r'win32com\.gen_py\..+', module):
+                del sys.modules[module]
+        shutil.rmtree(os.path.join(os.environ.get('LOCALAPPDATA'), 'Temp', 'gen_py'))
+        from win32com import client
+        app = client.gencache.EnsureDispatch(app_name)
+    return app
 
 class PandasExcelView:
 
@@ -10,7 +29,7 @@ class PandasExcelView:
 
     def __ensure_workbook(self):
         # Abre o excel se não estiver aberto
-        excel = win32.Dispatch('Excel.Application')
+        excel = dispatch('Excel.Application')
         excel.Visible = True
         self.excel = excel
 
@@ -105,3 +124,5 @@ class PandasExcelView:
 
 pdv = PandasExcelView()
 show = pdv.show
+
+    
