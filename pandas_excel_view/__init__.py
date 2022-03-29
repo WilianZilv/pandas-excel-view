@@ -1,3 +1,5 @@
+#%%
+
 import datetime
 
 def dispatch(app_name:str):
@@ -99,13 +101,19 @@ class PandasExcelView:
             ws.Range(ws.Cells(y + 1, x), ws.Cells(y + rows_count, x + cols_count - 1)).Value = df.values
             ws.Columns.AutoFit()
 
-            try:
-                rng = ws.Range(ws.Cells(y, x), ws.Cells(y + rows_count, x + cols_count - 1))#
+        
+            rng = ws.Range(ws.Cells(y, x), ws.Cells(y + rows_count, x + cols_count - 1))#
 
-                obj = ws.ListObjects.Add(SourceType=1, Source=rng)
+            obj = ws.ListObjects.Add(SourceType=1, Source=rng)
+            try:
                 obj.TableStyle = "BlueTableStyleMedium16"
             except:
                 pass
+            if sheet_name:
+                try:
+                    obj.Name = sheet_name
+                except:
+                    pass
 
         ws.Activate()
 
