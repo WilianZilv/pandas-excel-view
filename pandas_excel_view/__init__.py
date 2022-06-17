@@ -31,7 +31,11 @@ class PandasExcelView:
     def __ensure_workbook(self):
         # Abre o excel se não estiver aberto
         excel = dispatch('Excel.Application')
-        excel.Visible = True
+        try:
+            excel.Visible = True
+        except:
+            pass
+
         self.excel = excel
 
         # Checa se o workbook já está aberto
@@ -81,7 +85,7 @@ class PandasExcelView:
                 _ws = self.wb.Sheets(i)
                 if _ws.Name == sheet_name:
                     ws = _ws
-            
+
             if not ws:
                 ws = self.wb.Sheets.Add()
                 ws.Name = sheet_name
@@ -101,7 +105,7 @@ class PandasExcelView:
             ws.Range(ws.Cells(y + 1, x), ws.Cells(y + rows_count, x + cols_count - 1)).Value = df.values
             ws.Columns.AutoFit()
 
-        
+
             rng = ws.Range(ws.Cells(y, x), ws.Cells(y + rows_count, x + cols_count - 1))#
 
             obj = ws.ListObjects.Add(SourceType=1, Source=rng)
@@ -118,7 +122,7 @@ class PandasExcelView:
         ws.Activate()
 
         self.focus()
-    
+
     def focus(self):
         try:
             import pygetwindow as gw
@@ -134,4 +138,3 @@ class PandasExcelView:
 pdv = PandasExcelView()
 show = pdv.show
 
-    
