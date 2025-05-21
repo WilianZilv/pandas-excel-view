@@ -69,7 +69,7 @@ class PandasExcelView:
         df[date_columns] = df[date_columns].astype(str)
         return df
 
-    def show(self, df, sheet_name=None):
+    def show(self, df, sheet_name=None, as_table=True):
 
         self.__ensure_workbook()
         valid_sheet_name = self.__validate_sheet_name(sheet_name)
@@ -107,17 +107,17 @@ class PandasExcelView:
 
 
             rng = ws.Range(ws.Cells(y, x), ws.Cells(y + rows_count, x + cols_count - 1))#
-
-            obj = ws.ListObjects.Add(SourceType=1, Source=rng)
-            try:
-                obj.TableStyle = "BlueTableStyleMedium16"
-            except:
-                pass
-            if sheet_name:
+            if as_table:
+                obj = ws.ListObjects.Add(SourceType=1, Source=rng)
                 try:
-                    obj.Name = sheet_name
+                    obj.TableStyle = "BlueTableStyleMedium16"
                 except:
                     pass
+                if sheet_name:
+                    try:
+                        obj.Name = sheet_name
+                    except:
+                        pass
 
         ws.Activate()
 
